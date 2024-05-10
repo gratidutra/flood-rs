@@ -18,23 +18,23 @@ def prepare_future_data ():
 
     sao_goncalo_data['ds'] = sao_goncalo_data['ds'].dt.strftime('%d-%m-%Y, %H:%M:%S')
 
-    pos_vento = pd.read_csv("data/vento.csv")
+    pos_wind = pd.read_csv("data/wind.csv")
 
-    pos_vento['ds'] = pd.to_datetime(pos_vento['ds'])
+    pos_wind['ds'] = pd.to_datetime(pos_wind['ds'])
 
-    pos_vento['ds'] = pos_vento['ds'].dt.strftime('%d-%m-%Y, %H:%M:%S')
+    pos_wind['ds'] = pos_wind['ds'].dt.strftime('%d-%m-%Y, %H:%M:%S')
 
-    sao_goncalo_data = pd.merge(sao_goncalo_data, pos_vento, on="ds")
+    sao_goncalo_data = pd.merge(sao_goncalo_data, pos_wind, on="ds")
 
     future = m.make_future_dataframe(periods=12, freq='h')  
 
-    future['pos_vento'] = pos_vento['pos_vento']
+    future['pos_wind'] = pos_wind['pos_wind']
 
     forecast = m.predict(future)
 
     forecast = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
 
-    forecast_ = forecast.rename(columns={"ds":"Date_Hour", "yhat_lower":"Projection Lower", 
+    forecast_ = forecast.rename(columns={"ds":"Date/Hour", "yhat_lower":"Projection Lower", 
                                         "yhat":"Projection", "yhat_upper": "Projection Upper"}, errors="raise")
 
     # Visualize o resultado do modelo
