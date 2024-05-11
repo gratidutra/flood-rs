@@ -5,11 +5,11 @@ from prophet.diagnostics import performance_metrics
 from prophet.serialize import model_to_json, model_from_json
 import streamlit as st
 
-with open("data/serialized_model.json", "r") as fin:
-    m = model_from_json(fin.read())
-
 
 def prepare_future_data():
+
+    with open("data/serialized_model.json", "r") as fin:
+        m = model_from_json(fin.read())
 
     sao_goncalo_data = pd.read_csv("data/data.csv")
     sao_goncalo_data = sao_goncalo_data[sao_goncalo_data["Rio"] != "lagoa dos patos"]
