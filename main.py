@@ -25,6 +25,7 @@ def prepare_future_data():
     forecast = m.predict(future)
    
     forecast = forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]]
+    forecast_= forecast_.tail(24)
     forecast_ = forecast.rename(
         columns={
             "ds": "Date/Hour",
