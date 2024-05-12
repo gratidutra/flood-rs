@@ -13,11 +13,11 @@ def prepare_future_data():
 
     sao_goncalo_data = pd.read_csv("data/data.csv")
     sao_goncalo_data = sao_goncalo_data[sao_goncalo_data["Rio"] != "lagoa dos patos"]
-    sao_goncalo_data["ds"] = pd.to_datetime(sao_goncalo_data["ds"])
+    sao_goncalo_data["ds"] = pd.to_datetime(sao_goncalo_data["ds"], format="mixed")
     sao_goncalo_data["ds"] = sao_goncalo_data["ds"].dt.strftime("%d-%m-%Y, %H:%M:%S")
     
     pos_wind = pd.read_csv("data/wind.csv")
-    pos_wind["ds"] = pd.to_datetime(pos_wind["ds"])
+    pos_wind["ds"] = pd.to_datetime(pos_wind["ds"], format="mixed")
     pos_wind["ds"] = pos_wind["ds"].dt.strftime("%d-%m-%Y, %H:%M:%S")
     sao_goncalo_data = pd.merge(sao_goncalo_data, pos_wind, on="ds")
     future = m.make_future_dataframe(periods=44, freq="h")
