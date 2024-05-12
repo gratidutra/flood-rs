@@ -20,7 +20,7 @@ def prepare_future_data():
     pos_wind["ds"] = pd.to_datetime(pos_wind["ds"])
     pos_wind["ds"] = pos_wind["ds"].dt.strftime("%d-%m-%Y, %H:%M:%S")
     sao_goncalo_data = pd.merge(sao_goncalo_data, pos_wind, on="ds")
-    future = m.make_future_dataframe(periods=26, freq="h")
+    future = m.make_future_dataframe(periods=44, freq="h")
     future["pos_wind"] = pos_wind["pos_wind"]
     forecast = m.predict(future)
    
