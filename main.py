@@ -1,3 +1,4 @@
+from datetime import datetime
 import pandas as pd
 from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
@@ -25,7 +26,6 @@ def prepare_future_data():
     forecast = m.predict(future)
    
     forecast = forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]]
-    forecast_= forecast_.tail(24)
     forecast_ = forecast.rename(
         columns={
             "ds": "Date/Hour",
@@ -36,6 +36,10 @@ def prepare_future_data():
         errors="raise",
     )
 
+    hour_now = datetime.now()
+   
+    forecast_ = forecast_[forecast_['Date/Hour'] > hour_now]
+
     return plot_plotly(m, forecast), forecast_
 
 
@@ -45,7 +49,7 @@ def main():
     if st.button("Predict"):
         result = prepare_future_data()
         st.plotly_chart(result[0], use_container_width=True)
-        st.table(result[1])
+        st.table(result[1].head(10))
 
 
 if __name__ == "__main__":
